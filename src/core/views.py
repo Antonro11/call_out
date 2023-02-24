@@ -31,14 +31,12 @@ class PerformerRegistration(CreateView):
     success_url = reverse_lazy("core:index")
 
     def form_valid(self, form):
-        instance = form.save(commit=False)
-        instance.user_type = "performer"
-        instance = form.save()
-        print(type(instance), instance.email)
+        self.object = form.save(commit=False)
+        self.object.user_type = "performer"
+        user = form.save()
 
-        login(self.request, instance, backend="django.contrib.auth.backends.ModelBackend")
-
-        return super().form_valid(form)
+        login(self.request, user=user, backend="django.contrib.auth.backends.ModelBackend")
+        return HttpResponseRedirect(reverse_lazy("core:index"))
 
 
 class SpectatorRegistration(CreateView):
@@ -47,11 +45,12 @@ class SpectatorRegistration(CreateView):
     success_url = reverse_lazy("core:index")
 
     def form_valid(self, form):
-        instance = form.save(commit=False)
-        instance.user_type = "spectator"
-        instance.save()
+        self.object = form.save(commit=False)
+        self.object.user_type = "spectator"
+        user = form.save()
 
-        return super().form_valid(form)
+        login(self.request, user=user, backend="django.contrib.auth.backends.ModelBackend")
+        return HttpResponseRedirect(reverse_lazy("core:index"))
 
 
 class PerformerList(ListView):
