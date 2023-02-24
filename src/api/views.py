@@ -1,8 +1,6 @@
 from django.contrib.auth import get_user_model
 from rest_framework.decorators import action
-from rest_framework.generics import (CreateAPIView, DestroyAPIView,
-                                     ListAPIView, RetrieveAPIView,
-                                     UpdateAPIView)
+from rest_framework.generics import CreateAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework.viewsets import ModelViewSet
 
 from account.models import Customer
@@ -31,7 +29,7 @@ class BattleVoteViewSet(ModelViewSet):
     serializer_class = BattleVoteSerializer
 
 
-class CustomerGetSet(RetrieveAPIView):
+class CustomerGetSet(RetrieveUpdateDestroyAPIView):
     queryset = Customer.objects.all()
     serializer_class = CustomerSerializer
 
@@ -41,11 +39,11 @@ class CustomerCreateView(CreateAPIView):
     serializer_class = CustomerSerializer
 
 
-class CustomerDeleteView(DestroyAPIView):
+class CustomerDeleteView(RetrieveUpdateDestroyAPIView):
     queryset = Customer.objects.all()
 
 
-class CustomerUpdateView(UpdateAPIView):
+class CustomerUpdateView(RetrieveUpdateDestroyAPIView):
     queryset = Customer.objects.all()
     serializer_class = CustomerSerializer
     http_method_names = ["patch"]
@@ -56,11 +54,11 @@ class BattleCreateView(CreateAPIView):
     serializer_class = BattleSerializer
 
 
-class BattleDeleteView(DestroyAPIView):
+class BattleDeleteView(RetrieveUpdateDestroyAPIView):
     queryset = Battle.objects.all()
 
 
-class BattleUpdateView(UpdateAPIView):
+class BattleUpdateView(RetrieveUpdateDestroyAPIView):
     queryset = Battle.objects.all()
     serializer_class = BattleSerializer
     http_method_names = ["patch"]
@@ -71,11 +69,11 @@ class BattleInvitationCreateView(CreateAPIView):
     serializer_class = BattleInvitationSerializer
 
 
-class BattleInvitationDeleteView(DestroyAPIView):
+class BattleInvitationDeleteView(RetrieveUpdateDestroyAPIView):
     queryset = BattleInvitation.objects.all()
 
 
-class BattleInvitationUpdateView(UpdateAPIView):
+class BattleInvitationUpdateView(RetrieveUpdateDestroyAPIView):
     queryset = BattleInvitation.objects.all()
     serializer_class = BattleInvitationSerializer
     http_method_names = ["patch"]
@@ -86,11 +84,11 @@ class BattleVoteCreateView(CreateAPIView):
     serializer_class = BattleVoteSerializer
 
 
-class BattleVoteDeleteView(DestroyAPIView):
+class BattleVoteDeleteView(RetrieveUpdateDestroyAPIView):
     queryset = BattleVote.objects.all()
 
 
-class BattleVoteUpdateView(UpdateAPIView):
+class BattleVoteUpdateView(RetrieveUpdateDestroyAPIView):
     queryset = BattleVote.objects.all()
     serializer_class = BattleVoteSerializer
     http_method_names = ["patch"]

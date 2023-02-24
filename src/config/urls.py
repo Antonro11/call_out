@@ -24,5 +24,5 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("", include("core.urls")),
     path("account/", include("account.urls")),
-    path("api/", include("api.urls")),
+    path("api/v1/", include("api.urls")),
 ] + static(config.settings.dev.MEDIA_URL, document_root=config.settings.dev.MEDIA_ROOT)

@@ -5,14 +5,14 @@ from account.models import Customer
 from callout.models import Battle, BattleInvitation, BattleVote
 
 
-class SubsctiprionsSerializer(ModelSerializer):
+class SubscriptionsSerializer(ModelSerializer):
     class Meta:
         model = Customer
         fields = ("nickname", "dance_style", "pk")
 
 
 class CustomerSerializer(ModelSerializer):
-    subscribtions = SubsctiprionsSerializer(many=True, read_only=True)
+    subscribtions = SubscriptionsSerializer(many=True, read_only=True)
 
     class Meta:
         model = Customer
@@ -26,7 +26,7 @@ class BattleSerializer(ModelSerializer):
 
 
 class BattleInvitationSerializer(ModelSerializer):
-    performer = SubsctiprionsSerializer(read_only=True)
+    performer = SubscriptionsSerializer(read_only=True)
     battle = BattleSerializer(read_only=True)
 
     class Meta:
@@ -36,7 +36,7 @@ class BattleInvitationSerializer(ModelSerializer):
 
 class BattleVoteSerializer(ModelSerializer):
     battle = BattleSerializer(read_only=True)
-    voter = SubsctiprionsSerializer(read_only=True)
+    voter = SubscriptionsSerializer(read_only=True)
 
     class Meta:
         model = BattleVote
