@@ -1,0 +1,55 @@
+ {% extends "index.html" %}
+
+{% block content %}
+{% load static %}
+
+
+ <form xmlns="http://www.w3.org/1999/html">
+    <input type='text' id='search_text' name = 'search_text'>
+    <button type = 'submit' value ='Submit'>Search</button><br><br>
+  </form>
+
+
+
+  {% for performer in object_list %}
+        {% if performer.user_type == 'performer' and user.pk != performer.pk %}
+       {% if performer.photo %}
+        <img src={{performer.photo.url}} height="150" width="200"><br>
+        {% else %}
+        No photo
+      {% endif %} <br>
+      {{performer.first_name}} &nbsp {{performer.last_name}}
+        <br>
+        <a href="{% url 'account:performer-profile' performer.pk %}">{{performer.nickname}}</a><br>
+        {{performer.dance_style}}
+        <br>
+            {{performer.email}}
+        <br>
+
+
+            {% if performer.email not in all_users %}
+            <form class="form" method="POST">
+              {% csrf_token %}
+            <input type="hidden" value="{{performer.pk}}" name="performer_pk">
+            <button type = 'submit' value ='Submit' class="btn btn-success">Subscribe</button>
+            </form>
+
+            {% else %}
+            <form class="form" method="POST">
+              {% csrf_token %}
+            <input type="hidden" value="{{performer.pk}}" name="performer_unsubscribe">
+            <button type = 'submit' value ='Submit' class="btn btn-danger">Unsubscribe</button>
+            </form>
+
+
+            {% endif %}
+
+        {% endif %}
+        <br><br><br>
+
+    {% endfor %}
+  </tbody>
+
+</table>
+
+{% endblock %}

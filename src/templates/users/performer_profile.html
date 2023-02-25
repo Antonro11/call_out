@@ -1,0 +1,30 @@
+ {% extends "index.html" %}
+
+{% block content %}
+{% load static %}
+ <a>Performer Profile</a><br>
+ {% if object.photo %}
+
+  <img src={{object.photo.url}} height="200" width="200">
+  <br><br>
+ {{ object.first_name }} &nbsp {{ object.last_name }}
+ {% endif %}
+ <br><br><br>
+ {% if object.promo_video %}
+<video width="800"  controls>
+    <source src={{object.promo_video.url}} type="video/mp4" />
+</video>
+ {% endif %}
+<br><br>
+ <h2>Subsctiptions</h2>
+ {% for subscibtion in object.subscribtions.all %}
+  {% if subscibtion.photo %}
+  {{subscibtion.photo.url}}
+   {% else %}
+  <img src="{% static 'auth/lock.png' %}" alt="mdo" width="50" height="50" class="rounded-circle">
+  {% endif %}
+ <a href="{% url 'account:performer-profile' subscibtion.pk %}">{{subscibtion.nickname}}</a>
+  <br>
+ {% endfor %}
+
+{% endblock %}
