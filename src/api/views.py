@@ -41,6 +41,7 @@ class CustomerCreateView(CreateAPIView):
 
 class CustomerDeleteView(RetrieveUpdateDestroyAPIView):
     queryset = Customer.objects.all()
+    serializer_class = CustomerSerializer
 
 
 class CustomerUpdateView(RetrieveUpdateDestroyAPIView):
@@ -56,7 +57,7 @@ class BattleCreateView(CreateAPIView):
 
 class BattleDeleteView(RetrieveUpdateDestroyAPIView):
     queryset = Battle.objects.all()
-
+    serializer_class = BattleSerializer
 
 class BattleUpdateView(RetrieveUpdateDestroyAPIView):
     queryset = Battle.objects.all()
@@ -71,7 +72,7 @@ class BattleInvitationCreateView(CreateAPIView):
 
 class BattleInvitationDeleteView(RetrieveUpdateDestroyAPIView):
     queryset = BattleInvitation.objects.all()
-
+    serializer_class = BattleInvitationSerializer
 
 class BattleInvitationUpdateView(RetrieveUpdateDestroyAPIView):
     queryset = BattleInvitation.objects.all()
