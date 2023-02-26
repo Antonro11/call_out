@@ -18,6 +18,7 @@ from django.contrib import admin
 from django.urls import include, path
 
 import config.settings.dev
+from api.urls import router
 from core.views import IndexView
 
 urlpatterns = [

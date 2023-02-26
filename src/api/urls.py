@@ -1,5 +1,7 @@
 from django.urls import include, path
-from rest_framework import routers
+from drf_yasg import openapi
+from drf_yasg.views import get_schema_view
+from rest_framework import permissions, routers
 
 from api.views import (BattleCreateView, BattleDeleteView,
                        BattleInvitationCreateView, BattleInvitationDeleteView,
@@ -13,9 +15,21 @@ from api.views import (BattleCreateView, BattleDeleteView,
 app_name = "api"
 router = routers.DefaultRouter()
 router.register("customers", CustomerViewSet)
-router.register("battles", BattleViewSet)
+router.register("battles", BattleViewSet, "battles")
 router.register("battle-invitation", BattleInvitationViewSet)
 router.register("battle-vote", BattleVoteViewSet)
+
+schema_view = get_schema_view(
+    openapi.Info(
+        title="Call_Out API",
+        default_version="v1",
+        description="API for making battle",
+        terms_of_service="https://policies.google.com/terms",
+        license=openapi.License(name="BSD License"),
+    ),
+    public=True,
+    permission_classes=[permissions.AllowAny],
+)
 
 
 urlpatterns = [
@@ -33,4 +47,6 @@ urlpatterns = [
     path("create-battle-vote/", BattleVoteCreateView.as_view(), name="create-battle-vote"),
     path("delete-battle-vote/<int:pk>", BattleVoteDeleteView.as_view(), name="delete-battle-vote"),
     path("update-battle-vote/<int:pk>", BattleVoteUpdateView.as_view(), name="update-battle-vote"),
+    path("auth/", include("djoser.urls.jwt")),
+    path("docs/", schema_view.with_ui("redoc"), name="swagger-docs"),
 ]
