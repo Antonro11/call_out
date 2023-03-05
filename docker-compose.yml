@@ -1,0 +1,29 @@
+version: "3"
+
+services:
+  backend:
+    build: ./
+    container_name: callout_app
+    working_dir: /callout
+    ports:
+      - 8008:8008
+    command:
+      - ./commands/start_server.sh
+    volumes:
+      - ./src:/callout/src
+      - ./commands:/callout/commands
+    env_file:
+      - .env
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres:15
+    ports:
+      - 5432:5432
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    env_file:
+      - .env
+volumes:
+  pg_data: { }

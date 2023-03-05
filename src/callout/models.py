@@ -6,29 +6,9 @@ from django.db import models
 from account.models import Customer
 
 
-class Battle(models.Model):
-    start_time = models.DateTimeField(default=datetime.datetime.now())
-    rounds_count = models.PositiveIntegerField(default=2)
-    music = models.CharField(max_length=255)
-    result_score = models.PositiveIntegerField(default=0)
-    result_goes_to = models.ForeignKey(Customer, on_delete=models.CASCADE, null=True)
-
-    @classmethod
-    def generate_battles(cls, count):
-        customers_pk_lst = Customer.objects.all().values_list("pk", flat=True)
-        for i in range(count):
-            cls.objects.create(
-                start_time=datetime.datetime.now(),
-                rounds_count=random.choice([2, 3]),
-                music=f"url/track{str(random.randint(1,50))}.mp3",
-                result_score=random.choice([0, 50]),
-                result_goes_to=Customer.objects.get(pk=random.choice(customers_pk_lst)),
-            )
-
-
 class BattleInvitation(models.Model):
-    battle = models.ForeignKey(Battle, on_delete=models.CASCADE)
-    performer = models.ForeignKey(Customer, on_delete=models.CASCADE)
+    performer = models.ForeignKey(Customer, related_name="performer", on_delete=models.CASCADE, null=True)
+    sender = models.ForeignKey(Customer, related_name="sender", on_delete=models.CASCADE, null=True)
     date_and_time = models.DateTimeField(default=datetime.datetime.now())
     music_style = models.CharField(
         choices=(("Popping", "Popping"), ("Hip-hop", "Hip-hop"), ("Experimental", "Experimental")),  # NOQA
@@ -48,6 +28,35 @@ class BattleInvitation(models.Model):
                 date_and_time=datetime.datetime.now(),
                 music_style=random.choice(["Popping", "Hip-hop", "Experimental"]),
                 accepted=random.choice([True, False]),
+            )
+
+    def __str__(self):
+        return f"{self.sender.nickname} invited {self.performer.nickname} ({self.date_and_time})"
+
+
+class Battle(models.Model):
+    who_made_callout = models.ForeignKey(
+        Customer, related_name="who_made_callout", on_delete=models.CASCADE, default=False
+    )
+    who_accepted_callout = models.ForeignKey(
+        Customer, related_name="who_accepted_callout", on_delete=models.CASCADE, default=False
+    )
+    start_time = models.DateTimeField(default=datetime.datetime.now())
+    rounds_count = models.PositiveIntegerField(default=2)
+    music = models.CharField(max_length=255)
+    result_score = models.PositiveIntegerField(default=0)
+    invitation = models.ForeignKey(BattleInvitation, on_delete=models.CASCADE, null=True)
+
+    @classmethod
+    def generate_battles(cls, count):
+        customers_pk_lst = Customer.objects.all().values_list("pk", flat=True)
+        for i in range(count):
+            cls.objects.create(
+                start_time=datetime.datetime.now(),
+                rounds_count=random.choice([2, 3]),
+                music=f"url/track{str(random.randint(1,50))}.mp3",
+                result_score=random.choice([0, 50]),
+                result_goes_to=Customer.objects.get(pk=random.choice(customers_pk_lst)),
             )
 
 
