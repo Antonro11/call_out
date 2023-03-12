@@ -19,9 +19,11 @@ jobs:
       postgres:
         image: postgres:latest
         ports:
-          - 5432:5432
+          - 5435:5432
         env:
+          POSTGRES_USER: admin
           POSTGRES_PASSWORD: admin
+          POSTGRES_DB: callout
         options: --health-cmd pg-isready --health-interval 10s --health-timeout 5s --health-retries 15
 
     steps:
