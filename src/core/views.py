@@ -71,7 +71,10 @@ class PerformerList(ListView):
         elif "performer_unsubscribe" in self.request.POST:
             instance_subscription = Customer.objects.get(pk=self.request.POST.get("performer_unsubscribe"))
             instance_user.subscribtions.remove(instance_subscription)
-
+        elif "callout" in self.request.POST:
+            instance_callout = Customer.objects.get(pk=self.request.POST.get("callout"))
+            self.request.session["performer_pk"] = instance_callout.pk
+            return HttpResponseRedirect(reverse_lazy("callout:invite", kwargs={"pk": instance_callout.pk}))
         print(
             instance_subscription, instance_user, instance_user.subscribtions.all()
         )  # self.request.POST["performer_pk"])

@@ -6,11 +6,12 @@ WORKDIR /callout
 
 COPY ./src ./src
 COPY ./.black.toml ./.black.toml
+COPY ./commands ./commands
 COPY ./requirements.txt ./requirements.txt
 
 RUN pip install -r ./requirements.txt
 
 EXPOSE 8008
 
-CMD ["python", "src/manage.py", "runserver", "0:8008"]
+CMD ["bash"]
 

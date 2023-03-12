@@ -50,6 +50,7 @@ class Customer(AbstractBaseUser, PermissionsMixin):
     city = models.CharField(max_length=35, blank=True)
     gender = models.CharField(choices=(("M", "Male"), ("F", "Female")), max_length=10, blank=True)
     subscribtions = models.ManyToManyField(to="account.Customer", null=True)
+    invitations = models.ManyToManyField(to="callout.BattleInvitation", null=True)
     objects = CustomerManager()
 
     USERNAME_FIELD = "email"

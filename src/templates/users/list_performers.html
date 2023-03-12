@@ -31,18 +31,24 @@
             <form class="form" method="POST">
               {% csrf_token %}
             <input type="hidden" value="{{performer.pk}}" name="performer_pk">
-            <button type = 'submit' value ='Submit' class="btn btn-success">Subscribe</button>
+            <button type = 'submit' value ='Submit' class="btn btn-outline-success">Subscribe</button>
             </form>
 
             {% else %}
             <form class="form" method="POST">
               {% csrf_token %}
             <input type="hidden" value="{{performer.pk}}" name="performer_unsubscribe">
-            <button type = 'submit' value ='Submit' class="btn btn-danger">Unsubscribe</button>
+            <button type = 'submit' value ='Submit' class="btn btn-outline-warning">Unsubscribe</button>
             </form>
-
-
             {% endif %}
+
+        {% if user.user_type == 'performer' %}
+        <form class="form" method="POST">
+              {% csrf_token %}
+            <input type="hidden" value="{{performer.pk}}" name="callout">
+            <button type = 'submit' value ='Submit' class="btn btn-outline-danger">Call out</button>
+            </form>
+        {% endif %}
 
         {% endif %}
         <br><br><br>

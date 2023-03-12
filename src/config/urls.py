@@ -26,4 +26,5 @@ urlpatterns = [
     path("", include("core.urls")),
     path("account/", include("account.urls")),
     path("api/v1/", include("api.urls")),
+    path("callout/", include("callout.urls")),
 ] + static(config.settings.dev.MEDIA_URL, document_root=config.settings.dev.MEDIA_ROOT)
