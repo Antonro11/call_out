@@ -15,7 +15,7 @@ services:
     env_file:
       - .env
     depends_on:
-      - postgres
+      - mongodb
 
   postgres:
     image: postgres:15
@@ -25,5 +25,44 @@ services:
       - pg_data:/var/lib/postgresql/data
     env_file:
       - .env
+  pgadmin:
+    container_name: pgadmin_container
+    image: dpage/pgadmin4
+    restart: always
+    env_file:
+      - .env
+    ports:
+      - 5000:80
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+    depends_on:
+      - postgres
+
+  mongodb:
+    image: mongo:3-stretch
+    container_name: mongo_db_container
+    ports:
+      - 27017:27017
+    restart: always
+    command: [ "--bind_ip_all" ,"--smallfiles", ]
+    env_file:
+      - .env
+    volumes:
+      - mg_data:/data/db
+
+  mongoadmin:
+    image: mongo-express
+    restart: always
+    container_name: mongo_admin_container
+    ports:
+      - 8091:8081
+    env_file:
+      - .env
+    links:
+      - mongodb
+    depends_on:
+      - mongodb
 volumes:
   pg_data: { }
+  pgadmin_data: { }
+  mg_data: { }

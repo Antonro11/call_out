@@ -42,17 +42,25 @@
             </form>
             {% endif %}
 
+
+
+
         {% if user.user_type == 'performer' %}
+
+        {% if performer.pk not in all_invitations %}
         <form class="form" method="POST">
               {% csrf_token %}
             <input type="hidden" value="{{performer.pk}}" name="callout">
             <button type = 'submit' value ='Submit' class="btn btn-outline-danger">Call out</button>
             </form>
-        {% endif %}
+           {% else %}
+           <a>Already Invited</a>
+
+        {% endif %} <br> {{all_invitations}}
 
         {% endif %}
         <br><br><br>
-
+    {% endif %}
     {% endfor %}
   </tbody>
 

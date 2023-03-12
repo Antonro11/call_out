@@ -84,6 +84,12 @@
       <nav class="nav nav-masthead justify-content-center float-md-end">
         <a class="nav-link fw-bold py-1 px-0 active" aria-current="page" href="{% url 'core:index' %}">Home</a>&nbsp &nbsp &nbsp &nbsp
 
+
+          {% if user.user_type == 'performer' %}
+          <a class="nav-link fw-bold py-1 px-0 active" aria-current="page" href="{% url 'account:invites' user.pk %}">Invites</a>&nbsp &nbsp &nbsp &nbsp &nbsp
+          {% endif %}
+
+
              <div class="dropdown text-end">
           <a href="#" class="d-block link-light text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
               <img src="{% static 'auth/lock.png' %}" alt="mdo" width="32" height="32" class="rounded-circle">
