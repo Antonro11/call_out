@@ -7,20 +7,21 @@ DEBUG = True
 SECRET_KEY = "django-secret-key"
 
 ALLOWED_HOSTS = []
+
 if os.environ.get("GITHUB_WORKFLOW"):
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.postgresql",
-            "NAME": "callout_db",
+            "NAME": "github_actions",
             "USER": "postgres",
-            "PASSWORD": "admin",
+            "PASSWORD": "postgres",
             "HOST": "0.0.0.0",
             "PORT": 5432,
         }
     }
 else:
     DATABASES = {
-        "default": {
+        "default_local_postgres": {
             "ENGINE": "django.db.backends.postgresql",
             "NAME": "callout_db",
             "USER": "postgres",
@@ -28,11 +29,11 @@ else:
             "HOST": "localhost",
             "PORT": 5432,
         },
-        "default_local": {
+        "default_sql": {
             "ENGINE": "django.db.backends.sqlite3",
             "NAME": BASE_DIR / "db.sqlite3",
         },
-        "default_postgres": {
+        "default": {
             "ENGINE": "django.db.backends.postgresql",
             "NAME": os.environ.get("POSTGRES_DB"),
             "USER": os.environ.get("POSTGRES_USER"),
