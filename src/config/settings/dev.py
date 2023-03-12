@@ -14,7 +14,7 @@ if os.environ.get("GITHUB_WORKFLOW"):
             "NAME": "callout_db",
             "USER": "postgres",
             "PASSWORD": "admin",
-            "HOST": "0.0.0.0",
+            "HOST": "127.0.0.1",
             "PORT": 5432,
         }
     }
