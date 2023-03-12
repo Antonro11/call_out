@@ -11,8 +11,8 @@ if os.environ.get("GITHUB_WORKFLOW"):
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.postgresql",
-            "NAME": "callout",
-            "USER": "admin",
+            "NAME": "callout_db",
+            "USER": "postgres",
             "PASSWORD": "admin",
             "HOST": "0.0.0.0",
             "PORT": 5432,
