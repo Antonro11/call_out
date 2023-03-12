@@ -17,11 +17,12 @@ jobs:
         python-version: ["3.9", "3.10", "3.10.7", "3.11.2"]
 
     services:
-      postgres:
+      db:
+        restart: always
         image: postgres
         ports:
           - 5432:5432
-        env:
+        environment:
           POSTGRES_PASSWORD: postgres
         options: --health-cmd pg-isready --health-interval 10s --health-timeout 5s --health-retries 5
 
