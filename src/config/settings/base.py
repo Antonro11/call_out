@@ -34,8 +34,8 @@ INSTALLED_APPS = [
     "crispy_forms",
     "phonenumber_field",
     "account",
-    "core",
     "callout",
+    "core",
     "api",
 ]
 

@@ -1,6 +1,12 @@
 {% extends "index.html" %}
 
 {% block content %}
+
+
+                    <a  href="{% url 'account:spectator-registration' %}" >Registration as Spectator</a><br><br>
+                    <a  href="{% url 'account:performer-registration' %}" >Registration as Performer</a><br><br>
+
+
     <div>
         <form method = 'POST' style="width:25em; align-content:center;margin:auto" enctype="multipart/form-data">
             {% csrf_token %}

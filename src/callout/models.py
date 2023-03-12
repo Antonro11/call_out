@@ -15,7 +15,9 @@ class BattleInvitation(models.Model):
         max_length=50,
         null=True,
     )
-    accepted = models.BooleanField(default=False)
+    text = models.CharField(max_length=120, null=True)
+    accepted_sender = models.BooleanField(default=False)
+    accepted_performer = models.BooleanField(default=False)
 
     @classmethod
     def generate_invitation(cls, count):

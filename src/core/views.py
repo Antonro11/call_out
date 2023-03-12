@@ -9,11 +9,16 @@ from django.views.generic import CreateView, ListView, TemplateView
 
 from account.forms import PerformerRegistrationForm, SpectatorRegistrationForm
 from account.models import Customer
+from callout.models import BattleInvitation
 
 
 # Create your views here.
 class IndexView(TemplateView):
     template_name = "index.html"
+
+
+class TestTwoIndexView(TemplateView):
+    template_name = "test_index_two.html"
 
 
 class CustomerLogin(LoginView):
@@ -59,7 +64,17 @@ class PerformerList(ListView):
 
     def get(self, request, *args, **kwargs):
         all_users = self.request.user.subscribtions.values()
-        self.extra_context = {"all_users": [i["email"] for i in all_users]}
+        all_invitations = [(i["sender_id"], i["performer_id"]) for i in BattleInvitation.objects.values()]
+        all_invitations_user = []
+        for i in all_invitations:
+            if self.request.user.pk in i:
+                for y in i:
+                    if y != self.request.user.pk:
+                        all_invitations_user.append(y)
+
+        print(self.request.user.pk)
+
+        self.extra_context = {"all_users": [i["email"] for i in all_users], "all_invitations": all_invitations_user}
         return super(PerformerList, self).get(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
@@ -75,7 +90,5 @@ class PerformerList(ListView):
             instance_callout = Customer.objects.get(pk=self.request.POST.get("callout"))
             self.request.session["performer_pk"] = instance_callout.pk
             return HttpResponseRedirect(reverse_lazy("callout:invite", kwargs={"pk": instance_callout.pk}))
-        print(
-            instance_subscription, instance_user, instance_user.subscribtions.all()
-        )  # self.request.POST["performer_pk"])
+
         return HttpResponseRedirect(reverse_lazy("core:list-performers"))
