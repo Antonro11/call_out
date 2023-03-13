@@ -1,138 +1,246 @@
 <!doctype html>
 {% load static %}
-<html lang="en" class="h-100">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
-    <meta name="generator" content="Hugo 0.108.0">
-    <title>Cover Template · Bootstrap v5.3</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
-    <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/cover/">
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" ></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.min.js" integrity="sha384-Atwg2Pkwv9vp0ygtn1JAojH0nYbwNJLPhwyoVbhoPwBhjQPR5VtM2+xf0Uwh9KtT" crossorigin="anonymous"></script>
+
+<link href="{% static 'css/cover.css' %}" rel="stylesheet">
+
+<style>
+  .header {
+  background-color:  transparent
+  color: #fff; /* Text color */
+  padding: 15px; /* Add some padding for better visibility */
+  height:10px; /* Make the header a flex container */
+  justify-content: space-between; /* Align items to the left and right edges */
+}
+
+.header .active {
+  background-color: #fff; /* White active part */
+  color: #222; /* Text color */
+  border-radius: 5px; /* Rounded corners for the active part */
+  padding: 5px 10px; /* Add some padding to the active part */
+
+}
+
+.header h1 {
+  margin: 0; /* Remove default margins */
+}
+
+.header ul {
+  margin: 0; /* Remove default margins */
+  display: flex; /* Make the list a flex container */
+}
+
+.header li {
+  list-style: none; /* Remove default list styles */
+  margin-left: 20px; /* Add some spacing between list items */
+}
+
+.flex-container {
+  display: flex;
 
 
+}
+.header-container {
+  width: 450px;
+}
+
+.link_header {
+  color: transparent; /* Hides the link text */
+  display: inline-block; /* Displays the link as a block element */
+  padding: 2px; /* Adds padding to create the white frame around the link */
+  border: 1px solid grey; /* Creates the white frame */
+  border-color: white;
+  border-radius: 1px; /* Rounds the corners of the frame */
+  background-color: rgba(72, 72, 72, 0.1); /* Sets the background color to transparent white */
+  text-decoration: none; /* Removes the default underline from the link */
+  text-align: center;
+  height: 50px;
+  width: 150px;
+    border-top: none;
+  border-left: none;
+  border-right: none;
+
+}
 
 
-<link href="../assets/dist/css/bootstrap.min.css" rel="stylesheet">
+.link_header:hover {
 
-    <style>
-      .bd-placeholder-img {
-        font-size: 1.125rem;
-        text-anchor: middle;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        user-select: none;
-      }
+  border-bottom: 3px solid white;
+}
 
-      @media (min-width: 768px) {
-        .bd-placeholder-img-lg {
-          font-size: 3.5rem;
-        }
-      }
+.navbar {
+  background-color: rgba(0, 0, 0, 0.5);
+  position:fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: right;
+  align-items: center;
+  padding: 20px;
+  box-sizing: border-box;
+  z-index: 99;
+  height:10%;
+}
 
-      .b-example-divider {
-        height: 3rem;
-        background-color: rgba(0, 0, 0, .1);
-        border: solid rgba(0, 0, 0, .15);
-        border-width: 1px 0;
-        box-shadow: inset 0 .5em 1.5em rgba(0, 0, 0, .1), inset 0 .125em .5em rgba(0, 0, 0, .15);
-      }
+.logo {
+  color: #fff;
+  font-size: 24px;
+  font-weight: bold;
+  text-decoration: none;
+}
 
-      .b-example-vr {
-        flex-shrink: 0;
-        width: 1.5rem;
-        height: 100vh;
-      }
+.nav-links {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+}
 
-      .bi {
-        vertical-align: -.125em;
-        fill: currentColor;
-      }
+.nav-links li {
+  margin: 0 10px;
+}
 
-      .nav-scroller {
-        position: relative;
-        z-index: 2;
-        height: 2.75rem;
-        overflow-y: hidden;
-      }
+.nav-links li a {
+  color: #fff;
+  font-size: 18px;
+  text-decoration: none;
+}
 
-      .nav-scroller .nav {
-        display: flex;
-        flex-wrap: nowrap;
-        padding-bottom: 1rem;
-        margin-top: -1px;
-        overflow-x: auto;
-        text-align: center;
-        white-space: nowrap;
-        -webkit-overflow-scrolling: touch;
-      }
-    </style>
+.nav-links li a:hover {
+  border-bottom: 2px solid #fff;
+}
 
 
-    <!-- Custom styles for this template -->
-    <link href="{% static 'css/cover.css' %}" rel="stylesheet">
-  </head>
-  <body class="d-flex h-100 text-center text-bg-dark" background="image.jpg">
+.dropdown {
+  position: relative;
 
-<div class="container d-flex w-100 h-100 p-3 mx-auto flex-column">
-  <header class="mb-auto">
-    <div>
-      <h3 class="float-md-start mb-0">Cover</h3>
-      <nav class="nav nav-masthead justify-content-center float-md-end">
-        <a class="nav-link fw-bold py-1 px-0 active" aria-current="page" href="{% url 'core:index' %}">Home</a>&nbsp &nbsp &nbsp &nbsp
+}
 
-
-          {% if user.user_type == 'performer' %}
-          <a class="nav-link fw-bold py-1 px-0 active" aria-current="page" href="{% url 'account:invites' user.pk %}">Invites</a>&nbsp &nbsp &nbsp &nbsp &nbsp
-          {% endif %}
+.dropdown-content {
+    display: none;
+  position: absolute;
+  z-index: 1;
+  border-left:1px solid white;
+  border-right:1px solid white;
+}
 
 
-             <div class="dropdown text-end">
-          <a href="#" class="d-block link-light text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-              <img src="{% static 'auth/lock.png' %}" alt="mdo" width="32" height="32" class="rounded-circle">
+.dropdown:hover .dropdown-content {
+  display: block;
+  position:relative;
+  left:-52px;
+  top:95px;
+  text-align: center;
+}
 
-          </a>
-          <ul class="dropdown-menu text-small">
-              {% if user.is_authenticated %}
-             <li><a class="dropdown-item" href="{% url 'account:logout' %}" >Logout</a></li>
-              {% if user.user_type == 'performer' %}
-             <li><a class="dropdown-item" href="{% url 'account:performer-profile' user.pk %}" >Profile</a></li>
-              {% endif %}
-              {% if user.user_type == 'spectator' %}
-              <li><a class="dropdown-item" href="{% url 'account:spectator-profile' user.pk %}" >Profile</a></li>
-              {% endif %}
-                <hr class="dropdown-divider">
-            {% else %}
-            <li><a class="dropdown-item" href="{% url 'account:login' %}" >Login</a></li>
-                <hr class="dropdown-divider">
-            <li><a class="dropdown-item" href="{% url 'account:spectator-registration' %}" >Registration as Spectator</a></li>
-            <li><a class="dropdown-item" href="{% url 'account:performer-registration' %}" >Registration as Performer</a></li>
-            {% endif %}
-          </ul>
-        </div>
 
-      </nav>
+.dropdown-link {
+  display: inline-block;
+  padding: 10px;
+
+  color: #fff;
+  background-color: transparent;
+  text-decoration: none;
+
+}
+
+.dropdown-link:hover {
+  background-color: white;
+  color: #000;
+}
+
+.dropdown-text {
+  color: #fff; /* set link text color to white */
+  text-decoration: none; /* remove underline */
+  background-color: transparent; /* set background color */
+  padding: 10px; /* add padding to make the link easier to click */
+  border-radius: 5px; /* round the corners */
+
+}
+
+/* style links when hovered */
+.dropdown-text:hover {
+  background-color:grey;
+}
+
+.link-button {
+  display: inline-block;
+  text-decoration: none;
+  padding: 10px 20px;
+  margin: 10px;
+  color: #fff;
+  border: 2px solid #fff;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.link-button:hover {
+  background-color: #fff;
+  color: #333;
+}
+
+.link-button:active {
+  background-color: #333;
+  color: #fff;
+}
+
+
+.circle-img {
+  border-radius: 50%;
+}
+
+</style>
+
+<link href="{% static 'css/mycss.css' %}" rel="stylesheet">
+
+<header class="header">
+
+  <div class="flex-container">
+
+        <nav class="navbar">
+
+             <ul class="nav-links">
+                 <li><a style="color:#D0D0D0;position:fixed;left:1120px;top:0px; " class="link_header" aria-current="page" href="{% url 'core:index' %}"><h2>Home</h2></a></li>&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
+                 {% if user.is_authenticated %}
+                  <li class="dropdown"><div class="dropbtn" href="#" style="border-bottom: 0px solid #D0D0D0;position:relative;top:-10px;">
+                      {% if not user.photo %}
+                      <div style="position:relative;top:35px;"><img src="{% static 'auth/lock2.jpg' %}" alt="mdo" width="62" height="52" class="rounded-circle" style="top:3px;"></div><br>&nbsp&nbsp&nbsp&nbsp&nbsp{{user.nickname}}&nbsp &nbsp &nbsp &nbsp &nbsp
+                      {% else %}
+                      <div style="position:fixed;left:1370px;top:15px;"><img src={{user.photo.url}} alt="mdo" width="auto" height="72" class="circle-img"></div><br>&nbsp&nbsp&nbsp&nbsp&nbsp &nbsp &nbsp &nbsp &nbsp
+                      {% endif %}
+                    <div class="dropdown-content">
+                        <a class="dropdown-link"  href="{% url 'account:logout' %}" >Logout</a><br>
+                     {% if user.user_type == 'performer' %}
+                        <a class="dropdown-link"  href="{% url 'account:performer-profile' user.pk %}" >Profile</a> <br><br>
+                         {% endif %}
+                         {% if user.user_type == 'spectator' %}
+                         <a class="dropdown-link"  href="{% url 'account:spectator-profile' user.pk %}" >Profile</a><br><br>
+                         {% endif %}
+
+                        {% else %}
+                    <li><a style="color:#E53D00;position:relative;top:-10px;" class="link_header" aria-current="page" href="{% url 'account:login' %}"><h3>Sign up</h3></a></li>&nbsp &nbsp &nbsp &nbsp
+
+                    {% endif %}
+
+            </div>
+        </li>
+        </ul>
+    </nav>
     </div>
-  </header>
 
-  <main class="px-3">
-    {% block content%}
+</header>
 
-    <p class="lead">
-      <a href="{% url 'core:list-performers' %}" class="btn btn-lg btn-light fw-bold border-white bg-white">List Performers</a>
-    </p>
-    {% endblock %}
-  </main>
+<head>
+    <meta charset="UTF-8">
+    <title>Callout</title>
+</head>
 
-  <footer class="mt-auto text-white-50">
-    <p>Cover template for <a href="https://getbootstrap.com/" class="text-white">Bootstrap</a>, by <a href="https://twitter.com/mdo" class="text-white">@mdo</a>.</p>
-  </footer>
-</div>
+{% block content %}
+<body background="{% static 'images/5.jpg' %}">
+
+    <a class="link-button" href="{% url 'core:list-performers' %}" style="position: relative;top: 415px; left: 970px;font-family: Serif, time-new-roman;"><h3>SHOW ALL PERFORMERS</h3></a>
 
 
-
-  </body>
+</body>
+{% endblock %}
 </html>

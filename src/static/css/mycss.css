@@ -1,11 +1,11 @@
 .my-container {
- margin: auto;
-    display:inline-block;
+    margin: auto;
     width: 50%;
     padding: 10px;
-    align-items: center;
-    justify-content: center; /* center content horizontally */
-    height: 20vh;
+    position:relative;
+    top: 15px;
+}
 
-
+.centered-object {
+  text-align: center;
 }

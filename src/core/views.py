@@ -11,14 +11,11 @@ from account.forms import PerformerRegistrationForm, SpectatorRegistrationForm
 from account.models import Customer
 from callout.models import BattleInvitation
 
-
 # Create your views here.
+
+
 class IndexView(TemplateView):
     template_name = "index.html"
-
-
-class TestTwoIndexView(TemplateView):
-    template_name = "test_index_two.html"
 
 
 class CustomerLogin(LoginView):
@@ -71,8 +68,6 @@ class PerformerList(ListView):
                 for y in i:
                     if y != self.request.user.pk:
                         all_invitations_user.append(y)
-
-        print(self.request.user.pk)
 
         self.extra_context = {"all_users": [i["email"] for i in all_users], "all_invitations": all_invitations_user}
         return super(PerformerList, self).get(request, *args, **kwargs)

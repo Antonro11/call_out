@@ -44,7 +44,6 @@ class Invites(ListView):
             return HttpResponseRedirect(reverse_lazy("account:change_time", kwargs={"pk": battle_instance.pk}))
         elif "accept_invitation" in self.request.POST:
             battle_instance = BattleInvitation.objects.get(pk=self.request.POST.get("accept_invitation"))
-            # battle_instance.accepted = True
             return HttpResponseRedirect(reverse_lazy("callout:battle-room", kwargs={"pk": battle_instance.pk}))
 
         return HttpResponseRedirect(reverse_lazy("account:invites", kwargs={"pk": instance_user.pk}))
