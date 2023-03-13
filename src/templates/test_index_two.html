@@ -78,7 +78,8 @@
   align-items: center;
   padding: 20px;
   box-sizing: border-box;
-  z-index: 999;
+  z-index: 1;
+  height: 10%;
 }
 
 .logo {
@@ -189,6 +190,8 @@
 
 </style>
 
+<link href="{% static 'css/mycss.css' %}" rel="stylesheet">
+
 <header class="header">
 
   <div class="flex-container">
@@ -196,13 +199,13 @@
         <nav class="navbar">
 
              <ul class="nav-links">
-                 <li><a style="color:#D0D0D0;position:relative;top:-21px" class="link_header" aria-current="page" href="{% url 'core:index' %}"><h2>Home</h2></a></li>&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
+                 <li><a style="color:#D0D0D0;position:relative;top:20px;" class="link_header" aria-current="page" href="{% url 'core:index' %}"><h2>Home</h2></a></li>&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
                  {% if user.is_authenticated %}
-                  <li class="dropdown"><a class="dropbtn" href="#" style="border-bottom: 0px solid #D0D0D0;position:relative;top:-10px;">
+                  <li class="dropdown"><div class="dropbtn" href="#" style="border-bottom: 0px solid #D0D0D0;position:relative;top:-10px;">
                       {% if not user.photo %}
-                      <img src="{% static 'auth/lock2.jpg' %}" alt="mdo" width="62" height="52" class="rounded-circle"><br>&nbsp&nbsp&nbsp&nbsp&nbsp{{user.nickname}}</a>&nbsp &nbsp &nbsp &nbsp &nbsp
+                      <div style="position:relative;top:35px;"><img src="{% static 'auth/lock2.jpg' %}" alt="mdo" width="62" height="52" class="rounded-circle" style="top:3px;"></div><br>&nbsp&nbsp&nbsp&nbsp&nbsp{{user.nickname}}&nbsp &nbsp &nbsp &nbsp &nbsp
                       {% else %}
-                      <img src={{user.photo.url}} alt="mdo" width="72" height="72" class="circle-img"><br>&nbsp&nbsp&nbsp&nbsp</a>&nbsp &nbsp &nbsp &nbsp &nbsp
+                      <div style="position:relative;top:35px;"><img src={{user.photo.url}} alt="mdo" width="72" height="72" class="circle-img"></div><br>&nbsp&nbsp&nbsp&nbsp&nbsp &nbsp &nbsp &nbsp &nbsp
                       {% endif %}
                     <div class="dropdown-content">
                         <a class="dropdown-link"  href="{% url 'account:logout' %}" >Logout</a><br>
@@ -214,22 +217,15 @@
                          {% endif %}
 
                         {% else %}
-                 <li><a style="color:#E53D00;position:relative;top:-21px" class="link_header" aria-current="page" href="{% url 'account:login' %}"><h3>Sign up</h3></a></li>
+                    <li><a style="color:#E53D00;position:relative;top:-21px" class="link_header" aria-current="page" href="{% url 'account:login' %}"><h3>Sign up</h3></a></li>
 
                     {% endif %}
 
-  </div>
-    </li>
-
-
-
-             </ul>
-
-        </nav>
-
-
-</div>
-
+            </div>
+        </li>
+        </ul>
+    </nav>
+    </div>
 
 </header>
 
@@ -238,12 +234,12 @@
     <title>Callout</title>
 </head>
 
-
+{% block content %}
 <body background="{% static 'images/5.jpg' %}">
 
     <a class="link-button" href="{% url 'core:list-performers' %}" style="position: relative;top: 415px; left: 970px;font-family: Serif, time-new-roman;"><h3>SHOW ALL PERFORMERS</h3></a>
 
 
 </body>
-
+{% endblock %}
 </html>
