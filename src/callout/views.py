@@ -1,6 +1,6 @@
 from django.http import HttpResponseRedirect
 from django.urls import reverse, reverse_lazy
-from django.views.generic import CreateView
+from django.views.generic import CreateView, TemplateView
 
 from account.models import Customer
 from callout.forms import BattleInvitationForm
@@ -27,3 +27,7 @@ class Invitation(CreateView):
         instance_user.invitations.add(self.object)
 
         return HttpResponseRedirect(reverse_lazy("core:index"))
+
+
+class BattleRoom(TemplateView):
+    template_name = "callout/battle_room.html"

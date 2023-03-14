@@ -2,11 +2,13 @@
 
 {% block content %}
 {% load static %}
-
-
+ <body background="{% static 'images/5_without_text.jpg' %}">
+<div class="my-container">
+<div class="centered-object">
+    <br><br><br>
  <form xmlns="http://www.w3.org/1999/html">
     <input type='text' id='search_text' name = 'search_text'>
-    <button type = 'submit' value ='Submit'>Search</button><br><br>
+    <button type = 'submit' value ='Submit'>Search</button> <br><br>
   </form>
 
 
@@ -14,7 +16,7 @@
   {% for performer in object_list %}
         {% if performer.user_type == 'performer' and user.pk != performer.pk %}
        {% if performer.photo %}
-        <img src={{performer.photo.url}} height="150" width="200"><br>
+        <img src={{performer.photo.url}} height="auto" width="200px" class="circle-img"><br>
         {% else %}
         No photo
       {% endif %} <br>
@@ -42,20 +44,30 @@
             </form>
             {% endif %}
 
+
+
+
         {% if user.user_type == 'performer' %}
+
+        {% if performer.pk not in all_invitations %}
         <form class="form" method="POST">
               {% csrf_token %}
             <input type="hidden" value="{{performer.pk}}" name="callout">
             <button type = 'submit' value ='Submit' class="btn btn-outline-danger">Call out</button>
             </form>
-        {% endif %}
+           {% else %}
+           <a>Already Invited</a>
+
+        {% endif %} <br>
 
         {% endif %}
         <br><br><br>
-
+    {% endif %}
     {% endfor %}
   </tbody>
 
 </table>
-
+    </div>
+</div>
+ </body>
 {% endblock %}

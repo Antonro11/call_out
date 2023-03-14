@@ -2,7 +2,9 @@
 
 {% block content %}
 {% load static %}
+ <link rel="stylesheet" href="{% static 'css/cover.css' %}">
  <a>Performer Profile</a><br>
+
  {% if object.photo %}
 
   <img src={{object.photo.url}} height="200" width="200">
@@ -10,6 +12,7 @@
  {{ object.first_name }} &nbsp {{ object.last_name }}
  {% endif %}
  <br><br><br>
+ <a class="link-button" aria-current="page" href="{% url 'account:invites' user.pk %}">Invites</a>
  {% if object.promo_video %}
 <video width="800"  controls>
     <source src={{object.promo_video.url}} type="video/mp4" />
@@ -21,7 +24,7 @@
   {% if subscibtion.photo %}
   {{subscibtion.photo.url}}
    {% else %}
-  <img src="{% static 'auth/lock.png' %}" alt="mdo" width="50" height="50" class="rounded-circle">
+  <img src="{% static 'auth/lock.png' %}" alt="mdo" width="50" height="50" style="border-radius: 50%;">
   {% endif %}
  <a href="{% url 'account:performer-profile' subscibtion.pk %}">{{subscibtion.nickname}}</a>
   <br>
