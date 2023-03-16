@@ -2,7 +2,7 @@
 {% load static %}
 
 <link href="{% static 'css/cover.css' %}" rel="stylesheet">
-
+<link rel="stylesheet" href="{% static 'css/mycss.css' %}">
 <style>
   .header {
   background-color:  transparent
@@ -111,57 +111,6 @@
 }
 
 
-.dropdown {
-  position: relative;
-
-}
-
-.dropdown-content {
-    display: none;
-  position: absolute;
-  z-index: 1;
-  border-left:1px solid white;
-  border-right:1px solid white;
-}
-
-
-.dropdown:hover .dropdown-content {
-  display: block;
-  position:relative;
-  left:-52px;
-  top:95px;
-  text-align: center;
-}
-
-
-.dropdown-link {
-  display: inline-block;
-  padding: 10px;
-
-  color: #fff;
-  background-color: transparent;
-  text-decoration: none;
-
-}
-
-.dropdown-link:hover {
-  background-color: white;
-  color: #000;
-}
-
-.dropdown-text {
-  color: #fff; /* set link text color to white */
-  text-decoration: none; /* remove underline */
-  background-color: transparent; /* set background color */
-  padding: 10px; /* add padding to make the link easier to click */
-  border-radius: 5px; /* round the corners */
-
-}
-
-/* style links when hovered */
-.dropdown-text:hover {
-  background-color:grey;
-}
 
 .link-button {
   display: inline-block;
@@ -189,43 +138,79 @@
   border-radius: 50%;
 }
 
+.dropdown {
+  position: fixed;
+  display: block;
+  left:85%;
+}
+
+.dropdown-content {
+  display: none;
+  position: relative;
+
+  min-width: 100px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  padding: 12px 16px;
+  z-index: 1;
+  text-align:center;
+  left:-25px
+}
+
+.dropdown:hover .dropdown-content {
+  text-align:center;
+  display: block;
+  background-color:transparent;
+  border-left: 2px solid white;
+  border-right: 2px solid white;
+}
+
+.dropdown-link {
+    color:white;
+     font-size: 18px;
+
+
+}
+.dropdown-link:hover {
+    background-color:white;
+    border: 1px solid #fff;
+    color:black;
+}
+
 </style>
 
-<link href="{% static 'css/mycss.css' %}" rel="stylesheet">
 
 <header class="header">
 
   <div class="flex-container">
 
-        <nav class="navbar">
 
-             <ul class="nav-links">
-                 <li><a style="color:#D0D0D0;position:fixed;left:1120px;top:0px; " class="link_header" aria-current="page" href="{% url 'core:index' %}"><h2>Home</h2></a></li>&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
+
+
+                <a style="color:#D0D0D0;position:fixed;left:70%" class="link_header" aria-current="page" href="{% url 'core:index' %}"><h2>Home</h2></a>&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
                  {% if user.is_authenticated %}
-                  <li class="dropdown"><div class="dropbtn" href="#" style="border-bottom: 0px solid #D0D0D0;position:relative;top:-10px;">
+
                       {% if not user.photo %}
-                      <div style="position:relative;top:35px;"><img src="{% static 'auth/lock2.jpg' %}" alt="mdo" width="62" height="52" class="rounded-circle" style="top:3px;"></div><br>&nbsp&nbsp&nbsp&nbsp&nbsp{{user.nickname}}&nbsp &nbsp &nbsp &nbsp &nbsp
+                      <div class="dropdown"><img src="{% static 'auth/lock2.jpg' %}" alt="mdo" width="62" height="52" class="rounded-circle" style="top:3px;"><br>&nbsp&nbsp&nbsp&nbsp&nbsp{{user.nickname}}&nbsp &nbsp &nbsp &nbsp &nbsp
                       {% else %}
-                      <div style="position:fixed;left:1370px;top:15px;"><img src={{user.photo.url}} alt="mdo" width="auto" height="72" class="circle-img"></div><br>&nbsp&nbsp&nbsp&nbsp&nbsp &nbsp &nbsp &nbsp &nbsp
+                      <div class="dropdown"><img src={{user.photo.url}} alt="mdo" width="auto" height="72" class="circle-img"><br>&nbsp&nbsp&nbsp&nbsp&nbsp &nbsp &nbsp &nbsp &nbsp
                       {% endif %}
                     <div class="dropdown-content">
-                        <a class="dropdown-link"  href="{% url 'account:logout' %}" >Logout</a><br>
+                        <a class="dropdown-link"  href="{% url 'account:logout' %}">Logout</a><br><br>
                      {% if user.user_type == 'performer' %}
-                        <a class="dropdown-link"  href="{% url 'account:performer-profile' user.pk %}" >Profile</a> <br><br>
+                        <a class="dropdown-link"  href="{% url 'account:performer-profile' user.pk %}" >Profile</a> <br><br></div>
                          {% endif %}
                          {% if user.user_type == 'spectator' %}
-                         <a class="dropdown-link"  href="{% url 'account:spectator-profile' user.pk %}" >Profile</a><br><br>
+                         <a class="dropdown-link"  href="{% url 'account:spectator-profile' user.pk %}" >Profile</a><br><br></div>
                          {% endif %}
 
                         {% else %}
-                    <li><a style="color:#E53D00;position:relative;top:-10px;" class="link_header" aria-current="page" href="{% url 'account:login' %}"><h3>Sign up</h3></a></li>&nbsp &nbsp &nbsp &nbsp
+                   <a style="color:#E53D00;position:fixed;left:85%;" class="link_header" aria-current="page" href="{% url 'account:login' %}"><h3>Sign up</h3></a>&nbsp &nbsp &nbsp &nbsp
 
                     {% endif %}
+                      </div>
 
-            </div>
-        </li>
-        </ul>
-    </nav>
+
+
     </div>
 
 </header>
@@ -239,7 +224,6 @@
 <body background="{% static 'images/5.jpg' %}">
 
     <a class="link-button" href="{% url 'core:list-performers' %}" style="position: relative;top: 415px; left: 970px;font-family: Serif, time-new-roman;"><h3>SHOW ALL PERFORMERS</h3></a>
-
 
 </body>
 {% endblock %}

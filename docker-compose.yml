@@ -8,10 +8,13 @@ services:
     ports:
       - 8008:8008
     command:
-      - ./commands/start_server.sh
+      - ./commands/start_server_${MODE}.sh
     volumes:
       - ./src:/callout/src
       - ./commands:/callout/commands
+      - static_content:/callout/static1
+      - media_content:/callout/media
+
     env_file:
       - .env
     depends_on:
@@ -64,7 +67,25 @@ services:
       - mongodb
     depends_on:
       - mongodb
+
+  nginx:
+    image: nginx:1.19
+    volumes:
+      - ./nginx:/etc/nginx/conf.d
+      - static_content:/callout1/src/static
+      - media_content:/callout1/src/media
+    ports:
+      - 80:80
+      - 443:443
+    env_file:
+      - .env
+    depends_on:
+      - backend
+
+
 volumes:
+  static_content: { }
+  media_content: { }
   pg_data: { }
   pgadmin_data: { }
   mg_data: { }

@@ -1,8 +1,10 @@
  {% extends "index.html" %}
 
 {% block content %}
+ {% load static %}
 
  <a>Hello from battle room</a>
 
+<img src="{% url 'callout:video' %}">
 
  {% endblock %}
