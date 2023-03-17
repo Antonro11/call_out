@@ -1,5 +1,14 @@
-from django.http import HttpResponseRedirect
+import os
+import tempfile
+import threading
+
+import cv2
+from django.http import (HttpResponse, HttpResponseRedirect,
+                         StreamingHttpResponse)
+from django.shortcuts import render
+from django.template import loader
 from django.urls import reverse, reverse_lazy
+from django.views.decorators import gzip
 from django.views.generic import CreateView, TemplateView
 
 from account.models import Customer
@@ -31,3 +40,21 @@ class Invitation(CreateView):
 
 class BattleRoom(TemplateView):
     template_name = "callout/battle_room.html"
+
+
+def video_feed(request):
+    cap = cv2.VideoCapture(0)
+
+    def frame_generator():
+        while True:
+            ret, frame = cap.read()
+            if not ret:
+                break
+            _, jpeg = cv2.imencode(".jpg", frame)
+            yield (b"--frame\r\n" b"Content-Type: image/jpeg\r\n\r\n" + jpeg.tobytes() + b"\r\n")
+
+    response = StreamingHttpResponse(frame_generator(), content_type="multipart/x-mixed-replace; boundary=frame")
+
+    response["Content-Length"] = -1
+
+    return response

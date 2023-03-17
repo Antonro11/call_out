@@ -4,6 +4,8 @@ RUN apt update && mkdir callout && python -m pip install --upgrade pip && pip in
 
 WORKDIR /callout
 
+RUN apt install -y libgl1-mesa-glx
+
 COPY ./src ./src
 COPY ./.black.toml ./.black.toml
 COPY ./commands ./commands
