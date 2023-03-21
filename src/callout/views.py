@@ -2,7 +2,7 @@ import os
 import tempfile
 import threading
 
-
+import cv2
 from django.http import (HttpResponse, HttpResponseRedirect,
                          StreamingHttpResponse)
 from django.shortcuts import render

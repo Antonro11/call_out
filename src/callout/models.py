@@ -7,7 +7,9 @@ from account.models import Customer
 
 
 class BattleInvitation(models.Model):
-    performer = models.ForeignKey(Customer, related_name="performer", on_delete=models.CASCADE, blank=True, default=None)
+    performer = models.ForeignKey(
+        Customer, related_name="performer", on_delete=models.CASCADE, blank=True, default=None
+    )
     sender = models.ForeignKey(Customer, related_name="sender", on_delete=models.CASCADE, blank=True, default=None)
     date_and_time = models.DateTimeField(default=datetime.datetime.now())
     music_style = models.CharField(
@@ -19,20 +21,20 @@ class BattleInvitation(models.Model):
     accepted_sender = models.BooleanField(default=False)
     accepted_performer = models.BooleanField(default=False)
 
-
     def generate_invitations(count):
         performer_pk_lst = [i for i in Customer.objects.filter(user_type="performer").values_list("pk", flat=True)]
         all_invitations_sender = [i["sender_id"] for i in BattleInvitation.objects.values()]
         all_invitations_performer = [i["performer_id"] for i in BattleInvitation.objects.values()]
         for i in range(count):
-            if len(performer_pk_lst)<=2:
+            if len(performer_pk_lst) <= 2:
                 raise "You should generate more performers"
             performer = random.choice(performer_pk_lst)
             performer_pk_lst.remove(performer)
             sender = random.choice(performer_pk_lst)
 
-
-            if ((performer in all_invitations_sender) or (performer in all_invitations_performer)) and  ((sender in all_invitations_sender) or (sender in all_invitations_performer)): # NOQA
+            if ((performer in all_invitations_sender) or (performer in all_invitations_performer)) and (
+                (sender in all_invitations_sender) or (sender in all_invitations_performer)
+            ):  # NOQA
                 continue
             instance = BattleInvitation.objects.create(
                 date_and_time=datetime.datetime.now(),
@@ -42,9 +44,6 @@ class BattleInvitation(models.Model):
             )
             Customer.objects.get(pk=instance.sender.pk).invitations.add(instance)
             Customer.objects.get(pk=instance.performer.pk).invitations.add(instance)
-
-
-
 
     def __str__(self):
         return f"{self.sender.nickname} invited {self.performer.nickname} ({self.date_and_time})"
@@ -65,7 +64,6 @@ class Battle(models.Model):
 
     @classmethod
     def generate_battles(cls, count):
-        customers_pk_lst = Customer.objects.all().values_list("pk", flat=True)
         for i in range(count):
             cls.objects.create(
                 start_time=datetime.datetime.now(),

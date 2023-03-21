@@ -26,6 +26,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 # Application definition
 
 INSTALLED_APPS = [
+    "django_celery_beat",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -41,7 +42,6 @@ INSTALLED_APPS = [
     "callout",
     "core",
     "api",
-    'django_celery_beat',
 ]
 
 MIDDLEWARE = [
@@ -143,4 +143,6 @@ CELERY_RESULT_BACKEND = "redis://redis"
 CELERY_RESULT_SERIALIZER = "json"
 CELERY_TASK_SERIALIZER = "json"
 CELERY_ACCEPT_CONTENT = ["application/json"]
-CELERY_TASK_MODULES = ["core.tasks.generate_invitations",]
+CELERY_TASK_MODULES = [
+    "core.tasks.generate_invitations",
+]

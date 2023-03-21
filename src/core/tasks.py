@@ -1,19 +1,20 @@
+import datetime
 import random
 import time
-import datetime
 
 from celery import shared_task
-from faker import Faker
 from django.http import JsonResponse
+from faker import Faker
 
 from account.models import Customer
-from callout.models import BattleInvitation, Battle
+from callout.models import Battle, BattleInvitation
 from config.celery import app
 
 
 @shared_task
 def task_test():
     print("AAAAA")
+
 
 @shared_task
 def generate_performers(count):
@@ -44,7 +45,8 @@ def generate_invitations(count):
         sender = random.choice(performer_pk_lst)
 
         if ((performer in all_invitations_sender) or (performer in all_invitations_performer)) and (
-                (sender in all_invitations_sender) or (sender in all_invitations_performer)):  # NOQA
+            (sender in all_invitations_sender) or (sender in all_invitations_performer)
+        ):  # NOQA
             continue
         instance = BattleInvitation.objects.create(
             date_and_time=datetime.datetime.now(),
@@ -58,7 +60,6 @@ def generate_invitations(count):
 
 @shared_task
 def generate_battles(count):
-    customers_pk_lst = Customer.objects.all().values_list("pk", flat=True)
     for i in range(count):
         Battle.objects.create(
             start_time=datetime.datetime.now(),

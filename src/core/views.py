@@ -2,7 +2,7 @@ from django.contrib.auth import authenticate, get_user_model, login
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.contrib.auth.views import LoginView, LogoutView
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, ListView, TemplateView
@@ -10,8 +10,8 @@ from django.views.generic import CreateView, ListView, TemplateView
 from account.forms import PerformerRegistrationForm, SpectatorRegistrationForm
 from account.models import Customer
 from callout.models import BattleInvitation
-from core.tasks import generate_performers, generate_invitations, generate_battles, task_test
-
+from core.tasks import (generate_battles, generate_invitations,
+                        generate_performers, task_test)
 
 # Create your views here.
 
@@ -95,16 +95,17 @@ def generating_performers(request, count):
     generate_performers.delay(count)
     return HttpResponse("Generating performers...")
 
+
 def generating_invitations(request, count):
     generate_invitations.delay(count)
     return HttpResponse("Generating invitations...")
+
 
 def generating_battles(request, count):
     generate_battles.delay(count)
     return HttpResponse("Generating battles...")
 
+
 def test_task():
     task_test.delay()
     return HttpResponse("test...")
-
-
