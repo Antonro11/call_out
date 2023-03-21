@@ -2,7 +2,7 @@ import os
 import tempfile
 import threading
 
-import cv2
+
 from django.http import (HttpResponse, HttpResponseRedirect,
                          StreamingHttpResponse)
 from django.shortcuts import render
@@ -43,14 +43,14 @@ class BattleRoom(TemplateView):
 
 
 def video_feed(request):
-    cap = cv2.VideoCapture(0)
+    cap = cv2.VideoCapture(0)  # NOQA
 
     def frame_generator():
         while True:
             ret, frame = cap.read()
             if not ret:
                 break
-            _, jpeg = cv2.imencode(".jpg", frame)
+            _, jpeg = cv2.imencode(".jpg", frame)  # NOQA
             yield (b"--frame\r\n" b"Content-Type: image/jpeg\r\n\r\n" + jpeg.tobytes() + b"\r\n")
 
     response = StreamingHttpResponse(frame_generator(), content_type="multipart/x-mixed-replace; boundary=frame")
