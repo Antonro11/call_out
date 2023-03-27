@@ -6,14 +6,13 @@ services:
     container_name: callout_app
     working_dir: /callout
     ports:
-      - 8008:8008
+      - ${LOCAL_PORT}:${WSGI_PORT}
     command:
       - ./commands/start_server_${MODE}.sh
     volumes:
       - ./src:/callout/src
-      - ./commands:/callout/commands
-      - static_content:/callout/static1
-      - media_content:/callout/media
+      - static_content:/callout/src/static
+      - media_content:/callout/src/media
 
     env_file:
       - .env
@@ -72,8 +71,8 @@ services:
     image: nginx:1.19
     volumes:
       - ./nginx:/etc/nginx/conf.d
-      - static_content:/callout1/src/static
-      - media_content:/callout1/src/media
+      - static_content:/callout/src/static
+      - media_content:/callout/src/media
     ports:
       - 80:80
       - 443:443
@@ -81,6 +80,68 @@ services:
       - .env
     depends_on:
       - backend
+
+  redis:
+    image: redis
+    env_file:
+      - .env
+    restart: on-failure
+    depends_on:
+      - backend
+
+  celery:
+    build: ./
+    command:
+      - ./commands/start_celery.sh
+    restart: always
+    volumes:
+      - ./src:/callout
+      - ./commands:/callout/commands
+    env_file:
+      - .env
+    depends_on:
+      - redis
+      - backend
+
+
+  celerybeat:
+    build: ./
+    command:
+      - ./commands/start_celerybeat.sh
+    restart: always
+    volumes:
+      - ./src:/callout
+      - ./commands:/callout/commands
+    env_file:
+      - .env
+    depends_on:
+      - redis
+      - backend
+
+  flower-celery:
+    build: ./
+    volumes:
+      - ./src:/callout
+      - ./commands:/callout/commands
+    env_file:
+      - .env
+    command: ./commands/start_celery.sh
+    ports:
+      - 5556:5555
+    depends_on:
+      - celery
+      - redis
+
+  redisadmin:
+    image: rediscommander/redis-commander:latest
+    container_name: radisadmin
+    hostname: redisadmin
+    restart: always
+    ports:
+      - 8092:8081
+    env_file:
+      - .env
+
 
 
 volumes:

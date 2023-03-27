@@ -49,8 +49,8 @@ class Customer(AbstractBaseUser, PermissionsMixin):
     country = models.CharField(max_length=35, blank=True)
     city = models.CharField(max_length=35, blank=True)
     gender = models.CharField(choices=(("M", "Male"), ("F", "Female")), max_length=10, blank=True)
-    subscribtions = models.ManyToManyField(to="account.Customer", null=True)
-    invitations = models.ManyToManyField(to="callout.BattleInvitation", null=True)
+    subscribtions = models.ManyToManyField(to="account.Customer", blank=True)
+    invitations = models.ManyToManyField(to="callout.BattleInvitation", blank=True)
     changed_time = models.BooleanField(default=False)
 
     objects = CustomerManager()
