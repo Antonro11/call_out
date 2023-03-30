@@ -9,3 +9,15 @@
 .centered-object {
   text-align: center;
 }
+
+
+
+.text-list {
+  color: white; /* link color */
+  text-decoration: none; /* remove underline */
+}
+
+.text-list:hover {
+  color: black; /* link hover color */
+  background-color: white;
+}

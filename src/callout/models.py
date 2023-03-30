@@ -61,6 +61,12 @@ class Battle(models.Model):
     music = models.CharField(max_length=255)
     result_score = models.PositiveIntegerField(default=0)
     invitation = models.ForeignKey(BattleInvitation, on_delete=models.CASCADE, null=True)
+    track_one = models.CharField(max_length=255, null=True)
+    track_two = models.CharField(max_length=255, null=True)
+    track_three = models.CharField(max_length=255, null=True)
+
+    def __str__(self):
+        return f"{self.who_made_callout.nickname} VS {self.who_accepted_callout.nickname} ({self.start_time})"
 
     @classmethod
     def generate_battles(cls, count):

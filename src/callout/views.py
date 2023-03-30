@@ -1,15 +1,17 @@
+import json
 import os
 import tempfile
 import threading
 
-
-from django.http import (HttpResponse, HttpResponseRedirect,
+from django.http import (HttpResponse, HttpResponseBadRequest,
+                         HttpResponseRedirect, JsonResponse,
                          StreamingHttpResponse)
 from django.shortcuts import render
 from django.template import loader
 from django.urls import reverse, reverse_lazy
+from django.views import View
 from django.views.decorators import gzip
-from django.views.generic import CreateView, TemplateView
+from django.views.generic import CreateView, DetailView, TemplateView
 
 from account.models import Customer
 from callout.forms import BattleInvitationForm
@@ -40,6 +42,10 @@ class Invitation(CreateView):
 
 class BattleRoom(TemplateView):
     template_name = "callout/battle_room.html"
+
+
+class BattleRoomRemote(TemplateView):
+    template_name = "callout/battle_room_remote.html"
 
 
 def video_feed(request):

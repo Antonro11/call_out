@@ -2,7 +2,8 @@
 
 {% block content %}
 {% load static %}
- <body background="{% static 'images/5_without_text.jpg' %}">
+ <link rel="stylesheet" href="{% static 'css/mycss.css' %}">
+ <body background="{% static 'images/5_without_text.jpg' %}" style="background-repeat:no-repeat;background-attachment: fixed;">
 <div class="my-container">
 <div class="centered-object">
     <br><br><br>
@@ -18,15 +19,14 @@
        {% if performer.photo %}
         <img src={{performer.photo.url}} height="auto" width="200px" class="circle-img"><br>
         {% else %}
-        No photo
-      {% endif %} <br>
-      {{performer.first_name}} &nbsp {{performer.last_name}}
+        <img src={% static 'images/No-photo.png' %} height="auto" width="200px" class="circle-img">
+      {% endif %}
+
+
+        <h2><a class="text-list" href="{% url 'account:performer-profile' performer.pk %}">{{performer.nickname}}</a></h2>
+        <a class="text-list" style="position:relative;top:-15px;">({{performer.dance_style}})</a>
         <br>
-        <a href="{% url 'account:performer-profile' performer.pk %}">{{performer.nickname}}</a><br>
-        {{performer.dance_style}}
-        <br>
-            {{performer.email}}
-        <br>
+
 
 
             {% if performer.email not in all_users %}

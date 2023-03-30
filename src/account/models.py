@@ -51,6 +51,7 @@ class Customer(AbstractBaseUser, PermissionsMixin):
     gender = models.CharField(choices=(("M", "Male"), ("F", "Female")), max_length=10, blank=True)
     subscribtions = models.ManyToManyField(to="account.Customer", blank=True)
     invitations = models.ManyToManyField(to="callout.BattleInvitation", blank=True)
+    battles = models.ManyToManyField(to="callout.Battle", blank=True)
     changed_time = models.BooleanField(default=False)
 
     objects = CustomerManager()
@@ -110,3 +111,6 @@ class Customer(AbstractBaseUser, PermissionsMixin):
                 password="example",
                 user_type="spectator",
             )
+
+    def __str__(self):
+        return f"({self.pk}) {self.email}"
