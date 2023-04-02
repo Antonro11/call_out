@@ -13,6 +13,7 @@
  {% endif %}
  <br><br><br>
  <a class="link-button" aria-current="page" href="{% url 'account:invites' user.pk %}">Invites</a>
+ <a class="link-button" aria-current="page" href="{% url 'account:battles' user.pk %}">Battles</a>
  {% if object.promo_video %}
 <video width="800"  controls>
     <source src={{object.promo_video.url}} type="video/mp4" />

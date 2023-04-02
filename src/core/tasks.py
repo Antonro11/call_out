@@ -13,7 +13,7 @@ from config.celery import app
 
 @shared_task
 def task_test():
-    print("AAAAA")
+    print("test")
 
 
 @shared_task

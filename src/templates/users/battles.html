@@ -1,0 +1,16 @@
+ {% extends "index.html" %}
+
+{% block content %}
+ {% load static %}
+ <link rel="stylesheet" type="text/css" href="{% static 'css/mycss.css' %}" >
+ <body background="{% static 'images/5_without_text.jpg' %}" style="background-repeat:no-repeat;background-attachment: fixed;">
+<div class="my-container">
+<div class="centered-object">
+
+ {% for battle in user.battles.all %}
+
+    <h2><a class="text-list" href="{% url 'callout:battle-room' battle.pk %}">{{battle.who_made_callout.nickname}} vs {{battle.who_accepted_callout.nickname}} <br>{{battle.start_time}}</a></h2>
+ {% endfor %}
+</div>
+</div>
+ {% endblock %}
