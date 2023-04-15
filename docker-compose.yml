@@ -1,0 +1,87 @@
+version: "3"
+
+services:
+  backend:
+    build: ./
+    container_name: callout_app
+    working_dir: /callout
+    ports:
+      - ${LOCAL_PORT}:${WSGI_PORT}
+    command:
+      - ./commands/start_server_${MODE}.sh
+    volumes:
+      - ./src:/callout/src
+      - static_content:/callout/src/static
+      - media_content:/callout/src/media
+
+    env_file:
+      - .env
+  #  depends_on:
+    #  - postgres
+
+  #postgres:
+    #image: postgres:15
+    #ports:
+    #  - 5432:5432
+   # volumes:
+   #   - pg_data:/var/lib/postgresql/data
+  #  env_file:
+ #     - .env
+
+  #pgadmin:
+  #  container_name: pgadmin_container
+  #  image: dpage/pgadmin4
+  #  restart: on-failure
+  #  env_file:
+   #   - .env
+  #  ports:
+   #   - 5000:80
+  #  volumes:
+  #    - pgadmin_data:/var/lib/pgadmin
+   # depends_on:
+  #    - postgres
+
+
+
+  nginx:
+    image: nginx:1.19
+    volumes:
+      - ./nginx:/etc/nginx/conf.d
+      - static_content:/callout/src/static
+      - media_content:/callout/src/media
+    ports:
+      - 80:80
+      - 443:443
+    env_file:
+      - .env
+    depends_on:
+      - backend
+
+  #redis:
+  #  image: redis
+  #  env_file:
+   #   - .env
+   # restart: on-failure
+   # depends_on:
+   #   - backend
+
+
+
+ # redisadmin:
+   # image: rediscommander/redis-commander:latest
+   # container_name: radisadmin
+  #  hostname: redisadmin
+  #  restart: always
+  #  ports:
+   #   - 8092:8081
+  #  env_file:
+   #   - .env
+
+
+
+volumes:
+  static_content: { }
+  media_content: { }
+ # pg_data: { }
+ # pgadmin_data: { }
+ # mg_data: { }

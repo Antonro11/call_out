@@ -1,0 +1,231 @@
+<!doctype html>
+{% load static %}
+
+<link href="{% static 'css/cover.css' %}" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'css/mycss.css' %}">
+
+<style>
+  .header {
+  background-color:  transparent
+  color: #fff; /* Text color */
+  padding: 15px; /* Add some padding for better visibility */
+  height:10px; /* Make the header a flex container */
+  justify-content: space-between; /* Align items to the left and right edges */
+}
+
+.header .active {
+  background-color: #fff; /* White active part */
+  color: #222; /* Text color */
+  border-radius: 5px; /* Rounded corners for the active part */
+  padding: 5px 10px; /* Add some padding to the active part */
+
+}
+
+.header h1 {
+  margin: 0; /* Remove default margins */
+}
+
+.header ul {
+  margin: 0; /* Remove default margins */
+  display: flex; /* Make the list a flex container */
+}
+
+.header li {
+  list-style: none; /* Remove default list styles */
+  margin-left: 20px; /* Add some spacing between list items */
+}
+
+.flex-container {
+  display: flex;
+
+
+}
+.header-container {
+  width: 450px;
+}
+
+.link_header {
+  color: transparent; /* Hides the link text */
+  display: inline-block; /* Displays the link as a block element */
+  padding: 2px; /* Adds padding to create the white frame around the link */
+  border: 1px solid grey; /* Creates the white frame */
+  border-color: white;
+  border-radius: 1px; /* Rounds the corners of the frame */
+  background-color: rgba(72, 72, 72, 0.1); /* Sets the background color to transparent white */
+  text-decoration: none; /* Removes the default underline from the link */
+  text-align: center;
+  height: 50px;
+  width: 150px;
+    border-top: none;
+  border-left: none;
+  border-right: none;
+
+}
+
+
+.link_header:hover {
+
+  border-bottom: 3px solid white;
+}
+
+.navbar {
+  background-color: rgba(0, 0, 0, 0.5);
+  position:fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: right;
+  align-items: center;
+  padding: 20px;
+  box-sizing: border-box;
+  z-index: 99;
+  height:10%;
+}
+
+.logo {
+  color: #fff;
+  font-size: 24px;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.nav-links {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+}
+
+.nav-links li {
+  margin: 0 10px;
+}
+
+.nav-links li a {
+  color: #fff;
+  font-size: 18px;
+  text-decoration: none;
+}
+
+.nav-links li a:hover {
+  border-bottom: 2px solid #fff;
+}
+
+
+
+.link-button {
+  display: inline-block;
+  text-decoration: none;
+  padding: 10px 20px;
+  margin: 10px;
+  color: #fff;
+  border: 2px solid #fff;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.link-button:hover {
+  background-color: #fff;
+  color: #333;
+}
+
+.link-button:active {
+  background-color: #333;
+  color: #fff;
+}
+
+
+.circle-img {
+  border-radius: 50%;
+}
+
+.dropdown {
+  position: fixed;
+  display: block;
+  left:85%;
+}
+
+.dropdown-content {
+  display: none;
+  position: relative;
+
+  min-width: 100px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  padding: 12px 16px;
+  z-index: 1;
+  text-align:center;
+  left:-25px
+}
+
+.dropdown:hover .dropdown-content {
+  text-align:center;
+  display: block;
+  background-color:transparent;
+  border-left: 2px solid white;
+  border-right: 2px solid white;
+}
+
+.dropdown-link {
+    color:white;
+     font-size: 18px;
+
+
+}
+.dropdown-link:hover {
+    background-color:white;
+    border: 1px solid #fff;
+    color:black;
+}
+
+</style>
+
+
+<header class="header">
+
+  <div class="flex-container">
+
+
+
+
+                <a style="color:#D0D0D0;position:fixed;left:70%" class="link_header" aria-current="page" href="{% url 'core:index' %}"><h2>Home</h2></a>&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
+                 {% if user.is_authenticated %}
+
+                      {% if not user.photo %}
+                      <div class="dropdown"><img src="{% static 'auth/lock2.jpg' %}" alt="mdo" width="62" height="52" class="rounded-circle" style="top:3px;"><br>&nbsp&nbsp&nbsp&nbsp&nbsp{{user.nickname}}&nbsp &nbsp &nbsp &nbsp &nbsp
+                      {% else %}
+                      <div class="dropdown"><img src={{user.photo.url}} alt="mdo" width="auto" height="72" class="circle-img"><br>&nbsp&nbsp&nbsp&nbsp&nbsp &nbsp &nbsp &nbsp &nbsp
+                      {% endif %}
+                    <div class="dropdown-content">
+                        <a class="dropdown-link"  href="{% url 'account:logout' %}">Logout</a><br><br>
+                     {% if user.user_type == 'performer' %}
+                        <a class="dropdown-link"  href="{% url 'account:performer-profile' user.pk %}" >Profile</a> <br><br></div>
+                         {% endif %}
+                         {% if user.user_type == 'spectator' %}
+                         <a class="dropdown-link"  href="{% url 'account:spectator-profile' user.pk %}" >Profile</a><br><br></div>
+                         {% endif %}
+
+                        {% else %}
+                   <a style="color:#E53D00;position:fixed;left:85%;" class="link_header" aria-current="page" href="{% url 'account:login' %}"><h3>Sign up</h3></a>&nbsp &nbsp &nbsp &nbsp
+
+                    {% endif %}
+                      </div>
+
+
+
+    </div>
+
+</header>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Callout</title>
+</head>
+
+{% block content %}
+<body background="{% static 'images/5.jpg' %}">
+
+    <a class="link-button" href="{% url 'core:list-performers' %}" style="position: relative;top: 415px; left: 970px;font-family: Serif, time-new-roman;"><h3>SHOW ALL PERFORMERS</h3></a>
+
+</body>
+{% endblock %}
+</html>

@@ -1,0 +1,67 @@
+ {% extends "index.html" %}
+
+{% block content %}
+   <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
+ {% load static %}
+ <link rel="stylesheet" type="text/css" href="{% static 'css/mycss.css' %}" >
+ <body style="background-repeat:no-repeat;background-attachment: fixed;">
+<div class="my-container">
+<div class="centered-object">
+
+ <a class="text-list">Hello from battle room</a>
+<br><br><br><br><br>
+
+
+    <div>
+      <video id="remoteVideo" autoplay></video>
+      <button id="startButton">Start Streaming</button>
+    </div>
+
+    <script>
+        const video = document.getElementById('remoteVideo');
+const startButton = document.getElementById('startButton');
+
+let stream;
+
+const startStream = async () => {
+  try {
+    // Get user media
+    stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+
+    // Set video stream
+    video.srcObject = stream;
+
+    // Get WebRTC peer connection
+    const pc = new RTCPeerConnection();
+
+    // Add video track to peer connection
+    const track = stream.getTracks()[0];
+    pc.addTrack(track, stream);
+
+    // Create offer and set local description
+    const offer = await pc.createOffer();
+    await pc.setLocalDescription(offer);
+
+    // Send offer to server for others to watch
+    const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+    const response = await fetch('/callout/offer/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRFToken': csrfToken
+      },
+      body: JSON.stringify({ offer: pc.localDescription })
+    });
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+startButton.addEventListener('click', startStream);
+    </script>
+
+
+</div>
+</div>
+</body>
+ {% endblock %}

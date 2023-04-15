@@ -1,0 +1,59 @@
+ {% extends "index.html" %}
+
+{% block content %}
+
+    {%  for invite in user.invitations.all %}
+        {% if user.nickname == invite.sender.nickname %}
+        You invite {{invite.performer.nickname}}<br>
+        {% else %}
+        {{invite.sender.nickname}} invites you <br>
+        {% endif %}
+        {{invite.music_style}} <br>
+
+        {{invite.accepted_performer}} {{invite.accepted_sender}}
+
+
+        {% if user.nickname == invite.sender.nickname and invite.accepted_sender %}
+        <a>{{invite.date_and_time}}</a> <br><br>
+        {% elif user.nickname == invite.performer.nickname and invite.accepted_performer %}
+        <a>{{invite.date_and_time}}</a> <br><br>
+        {% else %}
+        <a>Changed   {{invite.date_and_time}}</a> <br><br>
+               <form class="form" method="POST">
+     {% csrf_token %}
+        <input type="hidden" value={{invite.pk}} name="accept_invitation">
+        <button type = 'submit' value ='Submit' class="btn btn-success">Accept</button>
+            </form>
+
+        <form class="form" method="POST">
+     {% csrf_token %}
+        <input type="hidden" value={{invite.pk}} name="change_time">
+        <button type = 'submit' value ='Submit' class="btn btn-warning">Change time</button>
+            </form>
+
+        {% endif %}
+       {# {% else %} #}
+       {# <a>{{invite.date_and_time}}</a> <br><br> #}
+
+      {#  {% endif %} #}
+
+
+
+
+
+           <form class="form" method="POST">
+     {% csrf_token %}
+        <input type="hidden" value={{invite.pk}} name="canсel_invitation">
+        <button type = 'submit' value ='Submit' class="btn btn-danger">Сancel</button>
+            </form>
+
+
+        <br> <br> <br>
+
+    {% endfor %}
+
+
+    {{invitation_instance}}
+
+
+ {% endblock %}

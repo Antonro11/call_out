@@ -1,0 +1,73 @@
+ {% extends "index.html" %}
+
+{% block content %}
+{% load static %}
+ <link rel="stylesheet" href="{% static 'css/mycss.css' %}">
+ <body style="background-repeat:no-repeat;background-attachment: fixed;">
+<div class="my-container">
+<div class="centered-object">
+    <br><br><br>
+ <form xmlns="http://www.w3.org/1999/html">
+    <input type='text' id='search_text' name = 'search_text'>
+    <button type = 'submit' value ='Submit'>Search</button> <br><br>
+  </form>
+
+
+
+  {% for performer in object_list %}
+        {% if performer.user_type == 'performer' and user.pk != performer.pk %}
+       {% if performer.photo %}
+        <img src={{performer.photo.url}} height="auto" width="200px" class="circle-img"><br>
+        {% else %}
+        <img src={% static 'images/No-photo.png' %} height="auto" width="200px" class="circle-img">
+      {% endif %}
+
+
+        <h2><a class="text-list" href="{% url 'account:performer-profile' performer.pk %}">{{performer.nickname}}</a></h2>
+        <a class="text-list" style="position:relative;top:-15px;">({{performer.dance_style}})</a>
+        <br>
+
+
+
+            {% if performer.email not in all_users %}
+            <form class="form" method="POST">
+              {% csrf_token %}
+            <input type="hidden" value="{{performer.pk}}" name="performer_pk">
+            <button type = 'submit' value ='Submit' class="btn btn-outline-success">Subscribe</button>
+            </form>
+
+            {% else %}
+            <form class="form" method="POST">
+              {% csrf_token %}
+            <input type="hidden" value="{{performer.pk}}" name="performer_unsubscribe">
+            <button type = 'submit' value ='Submit' class="btn btn-outline-warning">Unsubscribe</button>
+            </form>
+            {% endif %}
+
+
+
+
+        {% if user.user_type == 'performer' %}
+
+        {% if performer.pk not in all_invitations %}
+        <form class="form" method="POST">
+              {% csrf_token %}
+            <input type="hidden" value="{{performer.pk}}" name="callout">
+            <button type = 'submit' value ='Submit' class="btn btn-outline-danger">Call out</button>
+            </form>
+           {% else %}
+           <a>Already Invited</a>
+
+        {% endif %} <br>
+
+        {% endif %}
+        <br><br><br>
+    {% endif %}
+    {% endfor %}
+  </tbody>
+
+</table>
+    </div>
+</div>
+ </body>
+{% endblock %}
