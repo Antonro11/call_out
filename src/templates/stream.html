@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Stream</title>
+</head>
+<body>
+        {% if user.is_authenticated %}
+        {{user.email}}
+        {% endif %}
+
+      <h1>Room: {{ room_name }}</h1>
+
+    <div id="videos"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/simplewebrtc@latest/out/simplewebrtc.bundle.js"></script>
+    <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
+    <script>
+        var webrtc = new SimpleWebRTC({
+            localVideoEl: 'videos',
+            remoteVideosEl: '',
+            autoRequestMedia: true,
+            debug: false,
+            detectSpeakingEvents: true,
+            autoAdjustMic: false
+        });
+
+        webrtc.on('readyToCall', function () {
+            webrtc.joinRoom('{{ room_name }}');
+        });
+    </script>
+</body>
+</html>

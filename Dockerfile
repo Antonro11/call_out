@@ -1,15 +1,7 @@
 FROM python:3.10-slim
 
-RUN apt update && mkdir callout && python -m pip install --upgrade pip && pip install --upgrade pip setuptools
+RUN apt update && apt upgrade -y python3 && mkdir callout && apt-get install -y build-essential && python -m pip install --upgrade pip && pip install --upgrade pip setuptools
 
-RUN apt install -y libavdevice-dev -y libavfilter-dev -y libopus-dev -y libvpx-dev -y pkg-config
-
-RUN apt install -y libsrtp2-dev
-
-RUN apt-get install -y \
-    python3-pip
-
-RUN pip3 install aiortc
 
 WORKDIR /callout
 

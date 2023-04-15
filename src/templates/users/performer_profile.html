@@ -3,17 +3,21 @@
 {% block content %}
 {% load static %}
  <link rel="stylesheet" href="{% static 'css/cover.css' %}">
+<br><br><br><br>
+  <body style="background-repeat:no-repeat;background-attachment: fixed;">
+<div class="my-container">
+<div class="centered-object">
  <a>Performer Profile</a><br>
 
  {% if object.photo %}
 
-  <img src={{object.photo.url}} height="200" width="200">
+  <img src={{object.photo.url}} height="200" width="auto" class="circle-img">
   <br><br>
  {{ object.first_name }} &nbsp {{ object.last_name }}
  {% endif %}
  <br><br><br>
- <a class="link-button" aria-current="page" href="{% url 'account:invites' user.pk %}">Invites</a>
- <a class="link-button" aria-current="page" href="{% url 'account:battles' user.pk %}">Battles</a>
+ <a class="link-button" aria-current="page" href="{% url 'account:invites' object.pk %}">Invites</a>
+ <a class="link-button" aria-current="page" href="{% url 'account:battles' object.pk %}">Battles</a>
  {% if object.promo_video %}
 <video width="800"  controls>
     <source src={{object.promo_video.url}} type="video/mp4" />
@@ -30,5 +34,7 @@
  <a href="{% url 'account:performer-profile' subscibtion.pk %}">{{subscibtion.nickname}}</a>
   <br>
  {% endfor %}
-
+</div>
+</div>
+  </body>
 {% endblock %}

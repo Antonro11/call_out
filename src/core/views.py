@@ -2,6 +2,7 @@ from django.contrib.auth import authenticate, get_user_model, login
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.contrib.auth.views import LoginView, LogoutView
+from django.db.models import Q
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse_lazy
@@ -10,8 +11,6 @@ from django.views.generic import CreateView, ListView, TemplateView
 from account.forms import PerformerRegistrationForm, SpectatorRegistrationForm
 from account.models import Customer
 from callout.models import BattleInvitation
-from core.tasks import (generate_battles, generate_invitations,
-                        generate_performers, task_test)
 
 # Create your views here.
 
@@ -89,6 +88,17 @@ class PerformerList(ListView):
             return HttpResponseRedirect(reverse_lazy("callout:invite", kwargs={"pk": instance_callout.pk}))
 
         return HttpResponseRedirect(reverse_lazy("core:list-performers"))
+
+    def get_queryset(self):
+        for_search = self.request.GET.get("search_text")
+        searching_fields = ["first_name", "last_name", "email", "nickname"]
+        if for_search:
+            or_filter = Q()
+            for field in searching_fields:
+                or_filter |= Q(**({f"{field}__icontains": for_search}))
+            return Customer.objects.filter(or_filter)
+
+        return Customer.objects.all()
 
 
 def generating_performers(request, count):

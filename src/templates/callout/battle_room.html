@@ -10,27 +10,54 @@
 
  <a class="text-list">Hello from battle room</a>
 <br><br><br><br><br>
-    <h1>WebRTC Video Call</h1>
 
 
-    <video id="localVideo" autoplay></video>
-    <video id="remoteVideo" autoplay></video>
+    <div>
+      <video id="remoteVideo" autoplay></video>
+      <button id="startButton">Start Streaming</button>
+    </div>
+
     <script>
-        const localVideo = document.getElementById("localVideo");
-        const remoteVideo = document.getElementById("remoteVideo");
-        const configuration = {
-            iceServers: [{urls: "stun:stun.l.google.com:19302"}]
-        };
-        let peerConnection = new RTCPeerConnection(configuration);
-        navigator.mediaDevices.getUserMedia({video: true, audio: true})
-            .then(stream => {
-                localVideo.srcObject = stream;
-                stream.getTracks().forEach(track => peerConnection.addTrack(track, stream));
-            })
-            .catch(error => console.error(error));
-        peerConnection.addEventListener("track", event => {
-            remoteVideo.srcObject = event.streams[0];
-        });
+        const video = document.getElementById('remoteVideo');
+const startButton = document.getElementById('startButton');
+
+let stream;
+
+const startStream = async () => {
+  try {
+    // Get user media
+    stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+
+    // Set video stream
+    video.srcObject = stream;
+
+    // Get WebRTC peer connection
+    const pc = new RTCPeerConnection();
+
+    // Add video track to peer connection
+    const track = stream.getTracks()[0];
+    pc.addTrack(track, stream);
+
+    // Create offer and set local description
+    const offer = await pc.createOffer();
+    await pc.setLocalDescription(offer);
+
+    // Send offer to server for others to watch
+    const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+    const response = await fetch('/callout/offer/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRFToken': csrfToken
+      },
+      body: JSON.stringify({ offer: pc.localDescription })
+    });
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+startButton.addEventListener('click', startStream);
     </script>
 
 
