@@ -3,6 +3,9 @@ import os
 import tempfile
 import threading
 
+from asgiref.sync import async_to_sync
+from channels.generic.websocket import AsyncWebsocketConsumer
+from channels.layers import get_channel_layer
 from django.http import (HttpResponse, HttpResponseBadRequest,
                          HttpResponseRedirect, JsonResponse,
                          StreamingHttpResponse)
@@ -11,6 +14,7 @@ from django.template import loader
 from django.urls import reverse, reverse_lazy
 from django.views import View
 from django.views.decorators import gzip
+from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import CreateView, DetailView, TemplateView
 
 from account.models import Customer
@@ -42,10 +46,6 @@ class Invitation(CreateView):
 
 class BattleRoom(TemplateView):
     template_name = "callout/battle_room.html"
-
-
-class BattleRoomRemote(TemplateView):
-    template_name = "callout/battle_room_remote.html"
 
 
 def video_feed(request):

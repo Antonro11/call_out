@@ -16,56 +16,32 @@ services:
 
     env_file:
       - .env
-    depends_on:
-      - postgres
+  #  depends_on:
+    #  - postgres
 
-  postgres:
-    image: postgres:15
-    ports:
-      - 5432:5432
-    volumes:
-      - pg_data:/var/lib/postgresql/data
-    env_file:
-      - .env
+  #postgres:
+    #image: postgres:15
+    #ports:
+    #  - 5432:5432
+   # volumes:
+   #   - pg_data:/var/lib/postgresql/data
+  #  env_file:
+ #     - .env
 
-  pgadmin:
-    container_name: pgadmin_container
-    image: dpage/pgadmin4
-    restart: on-failure
-    env_file:
-      - .env
-    ports:
-      - 5000:80
-    volumes:
-      - pgadmin_data:/var/lib/pgadmin
-    depends_on:
-      - postgres
+  #pgadmin:
+  #  container_name: pgadmin_container
+  #  image: dpage/pgadmin4
+  #  restart: on-failure
+  #  env_file:
+   #   - .env
+  #  ports:
+   #   - 5000:80
+  #  volumes:
+  #    - pgadmin_data:/var/lib/pgadmin
+   # depends_on:
+  #    - postgres
 
 
-  mongodb:
-    image: mongo:3-stretch
-    container_name: mongo_db_container
-    ports:
-      - 27017:27017
-    restart: always
-    command: [ "--bind_ip_all" ,"--smallfiles", ]
-    env_file:
-      - .env
-    volumes:
-      - mg_data:/data/db
-
-  mongoadmin:
-    image: mongo-express
-    restart: always
-    container_name: mongo_admin_container
-    ports:
-      - 8091:8081
-    env_file:
-      - .env
-    links:
-      - mongodb
-    depends_on:
-      - mongodb
 
   nginx:
     image: nginx:1.19
@@ -81,72 +57,31 @@ services:
     depends_on:
       - backend
 
-  redis:
-    image: redis
-    env_file:
-      - .env
-    restart: on-failure
-    depends_on:
-      - backend
-
-  celery:
-    build: ./
-    command:
-      - ./commands/start_celery.sh
-    restart: always
-    volumes:
-      - ./src:/callout
-      - ./commands:/callout/commands
-    env_file:
-      - .env
-    depends_on:
-      - redis
-      - backend
+  #redis:
+  #  image: redis
+  #  env_file:
+   #   - .env
+   # restart: on-failure
+   # depends_on:
+   #   - backend
 
 
-  celerybeat:
-    build: ./
-    command:
-      - ./commands/start_celerybeat.sh
-    restart: always
-    volumes:
-      - ./src:/callout
-      - ./commands:/callout/commands
-    env_file:
-      - .env
-    depends_on:
-      - redis
-      - backend
 
-  flower-celery:
-    build: ./
-    volumes:
-      - ./src:/callout
-      - ./commands:/callout/commands
-    env_file:
-      - .env
-    command: ./commands/start_celery.sh
-    ports:
-      - 5556:5555
-    depends_on:
-      - celery
-      - redis
-
-  redisadmin:
-    image: rediscommander/redis-commander:latest
-    container_name: radisadmin
-    hostname: redisadmin
-    restart: always
-    ports:
-      - 8092:8081
-    env_file:
-      - .env
+ # redisadmin:
+   # image: rediscommander/redis-commander:latest
+   # container_name: radisadmin
+  #  hostname: redisadmin
+  #  restart: always
+  #  ports:
+   #   - 8092:8081
+  #  env_file:
+   #   - .env
 
 
 
 volumes:
   static_content: { }
   media_content: { }
-  pg_data: { }
-  pgadmin_data: { }
-  mg_data: { }
+ # pg_data: { }
+ # pgadmin_data: { }
+ # mg_data: { }

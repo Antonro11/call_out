@@ -13,10 +13,6 @@ import os
 from datetime import timedelta
 from pathlib import Path
 
-from celery.schedules import crontab
-
-from config.celery import app
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
@@ -32,10 +28,12 @@ INSTALLED_APPS = [
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
+    "daphne",
     "django.contrib.staticfiles",
     "django_extensions",
-    "django_celery_beat",
     "rest_framework",
+    "channels",
+    "channels_redis",
     "drf_yasg",
     "crispy_forms",
     "phonenumber_field",
@@ -76,6 +74,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = "config.wsgi.application"
+
 ASGI_APPLICATION = "config.asgi.application"
 
 # Database
@@ -139,21 +138,12 @@ DJOSER = {
     "PASSWORD_RESET_CONFIRM_URL": "auth/password-reset/{uid}/{token}",
 }
 
-CELERY_BROKER_URL = "redis://redis"
-CELERY_RESULT_BACKEND = "redis://redis"
-
-CELERY_RESULT_SERIALIZER = "json"
-CELERY_TASK_SERIALIZER = "json"
-CELERY_ACCEPT_CONTENT = ["application/json"]
-
-REDIS_HOST = os.environ.get("REDIS_HOST", "webrtc-redis-server")
-REDIS_PORT = os.environ.get("REDIS_PORT", "6379")
 
 CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
         "CONFIG": {
-            "hosts": [(REDIS_HOST, REDIS_PORT)],
+            "hosts": [("localhost", 6379)],
         },
     },
 }

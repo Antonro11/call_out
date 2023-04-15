@@ -83,3 +83,8 @@ text {
   background-color: #333;
   color: #fff;
 }
+
+
+.circle-img {
+  border-radius: 50%;
+}
